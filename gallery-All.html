@@ -51,7 +51,42 @@
 
 
     </style>
-    <script type="text/javascript" defer>
+    <script type="text/javascript">
+        function segmentScript(){
+            var prophoneSegmentId = 'Z6dq7zq7CtZubdSRrh4EHjCsAasGDPiE'
+            var customerPagesSegmentId = '9Ce585PETlETCGamY79KkSoBrcAdcdPc'
+
+            if (window.location.href.includes('prosite.prophone.com')) {
+                segmentId = prophoneSegmentId
+            } else {
+                segmentId = customerPagesSegmentId
+            }
+            console.log('bucksaaaaaa')
+
+            var analytics=window.analytics=window.analytics||[];
+            if(!analytics.initialize)
+            if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");
+            else{
+                    analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];
+                analytics.factory=function(e){
+                    return function(){
+                        var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics
+                    }
+                };
+                for(var e=0;e<analytics.methods.length;e++){
+                    var key=analytics.methods[e];analytics[key]=analytics.factory(key)
+                }
+                analytics.load=function(key,e){var t=document.createElement("script");
+                t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";
+                var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e
+                };
+                analytics._writeKey=segmentId;;
+                analytics.SNIPPET_VERSION="4.15.3";
+                analytics.load(segmentId);
+                analytics.page();
+            };
+        }
+        segmentScript()
                     function send_sms(slug){
                         const sendButton = document.getElementById('sendButton')
                         sendButton.disabled = true
@@ -308,12 +343,19 @@
                     :class="{'hidden': !scrolledFromTop, 'hidden': scrolledFromTop}"
                     class="sm:flex text-white text-sm mb-3 sm:mb-0"
                 >
-                    You’re just a few clicks from going live! Don’t worry - we can still make edits after launching.
+                    
+
+                    Michael, you’re just a few clicks from going live! Don’t worry - we can still make edits after launching.
+
+                    
                 </div>
             </div>
             <div class="flex flex-row items-center">
                 <a class="flex bg-white px-4 py-2 rounded-md text-orange-600 mr-4 text-sm" href="https://app.prophone.com/checkout?id=3715">
                     Launch my site
+                </a>
+                <a id="contact-us-button" class="flex bg-white px-4 py-2 rounded-md text-orange-600 mr-4 text-sm" href="tel:8573653045">
+                    Contact Us
                 </a>
                 <a class="flex font-bold underline underline-offset-4 text-white text-sm" href="https://www.prophone.com/learn-more?id=3715">
                     Learn more →
@@ -648,7 +690,7 @@
                                 :class="{'scale-100': !scrolledFromTop, 'scale-75': scrolledFromTop}"
                                 class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium transition bg-white border-2 rounded-md  hover:bg-primary hover:bg-opacity-10 focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 sm:w-auto text-primary border-primary"
                                 >
-                                864-806-2363 
+                                864-806-2063
                             </a>
                         </div>
                         
@@ -866,7 +908,7 @@
                                 :class="{'scale-100': !scrolledFromTop, 'scale-75': scrolledFromTop}"
                                 class="inline-flex items-center justify-center w-full px-5 py-3 text-base font-medium transition bg-white border-2 rounded-md  hover:bg-primary hover:bg-opacity-10 focus:outline-none focus:ring-2 ring-primary ring-opacity-75 ring-offset-2 sm:w-auto text-primary border-primary"
                                 >
-                                864-806-2363 
+                                864-806-2063
                             </a>
                          
                      
@@ -883,7 +925,7 @@
 <script>
     const navBar = document.getElementById('nav-bar')
     const launchBanner = document.getElementById('launch-site-banner')
-
+    const contactUsButton = document.getElementById('contact-us-button')
     function detectMob() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
             return true
@@ -893,12 +935,18 @@
     }
     const isMobile = detectMob()
 
-    if (window.location.href.includes('prosite.prophone.com')) {
+    if (window.location.href.includes('prosite.prophone.com')
+     || window.location.href.includes('dev.prosite.prophone.com')
+     || window.location.href.includes('stage.prosite.prophone.com')
+     || window.location.href.includes('127.0.0.1:8000')
+     || window.location.href.includes('localhost')) {
         launchBanner.style.display = 'block'
         if (isMobile) {
             navBar.className = "fixed inset-x-0 sm:top-16 z-20 transition-all duration-200"
+            contactUsButton.href = "tel:8573653045"
         } else {
             navBar.className = "fixed inset-x-0 top-0 sm:top-16 z-20 transition-all duration-200"
+            contactUsButton.href = "mailto:support@prophone.com?subject=ProPhone - Sales Inquiry"
         }
     } else {
         launchBanner.style.display = 'none'
@@ -966,7 +1014,7 @@
                     <button @click="activeImage = 0; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <video preload="metadata" class="rounded shadow-md object-contain w-full h-60" loading="lazy" controls> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/f7bd4829-bb7d-4eeb-b1ef-cb3abf7e2bc7.mp4#t=0.5" >
+                                <video class="rounded shadow-md object-contain w-full h-60" loading="lazy" autoplay loop controls muted> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/f7bd4829-bb7d-4eeb-b1ef-cb3abf7e2bc7.mp4#t=0.5" >
                                 </video>
                             
                         </div>
@@ -984,7 +1032,7 @@
                     <button @click="activeImage = 1; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <video preload="metadata" class="rounded shadow-md object-contain w-full h-60" loading="lazy" controls> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/aa54d5c9-b989-4eab-a53a-bea200ad1c3b.mp4#t=0.5" >
+                                <video class="rounded shadow-md object-contain w-full h-60" loading="lazy" autoplay loop controls muted> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/aa54d5c9-b989-4eab-a53a-bea200ad1c3b.mp4#t=0.5" >
                                 </video>
                             
                         </div>
@@ -1002,7 +1050,7 @@
                     <button @click="activeImage = 2; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <video preload="metadata" class="rounded shadow-md object-contain w-full h-60" loading="lazy" controls> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/9e1efd55-42f9-40c0-941f-b562614363c3.mp4#t=0.5" >
+                                <video class="rounded shadow-md object-contain w-full h-60" loading="lazy" autoplay loop controls muted> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/9e1efd55-42f9-40c0-941f-b562614363c3.mp4#t=0.5" >
                                 </video>
                             
                         </div>
@@ -1020,7 +1068,7 @@
                     <button @click="activeImage = 3; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/8f676074-3141-4c5d-8322-efb157ce80fa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/8f676074-3141-4c5d-8322-efb157ce80fa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1037,7 +1085,7 @@
                     <button @click="activeImage = 4; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/b294cd61-7b7e-46c7-89fa-d154d7d43d45.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/b294cd61-7b7e-46c7-89fa-d154d7d43d45.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1054,7 +1102,7 @@
                     <button @click="activeImage = 5; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/03886998-1aac-44d3-82ee-cc18deb828bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/03886998-1aac-44d3-82ee-cc18deb828bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1071,7 +1119,7 @@
                     <button @click="activeImage = 6; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/1414b62e-d53e-4339-bf28-51857675ed34.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/1414b62e-d53e-4339-bf28-51857675ed34.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1088,7 +1136,7 @@
                     <button @click="activeImage = 7; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/90d4dfe8-8eb7-49cc-a532-3471138252c6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/90d4dfe8-8eb7-49cc-a532-3471138252c6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1105,7 +1153,7 @@
                     <button @click="activeImage = 8; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/df7588d1-0608-4296-911c-f94470222675.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/df7588d1-0608-4296-911c-f94470222675.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1122,7 +1170,7 @@
                     <button @click="activeImage = 9; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/2138a109-baa1-4af3-8336-3e1bc2677715.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/2138a109-baa1-4af3-8336-3e1bc2677715.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1139,7 +1187,7 @@
                     <button @click="activeImage = 10; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/e6d80897-2891-4080-9ac0-837f73ff23a6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/e6d80897-2891-4080-9ac0-837f73ff23a6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1156,7 +1204,7 @@
                     <button @click="activeImage = 11; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/d2e76bd4-2613-4325-972c-2f97faccafdb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/d2e76bd4-2613-4325-972c-2f97faccafdb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1173,7 +1221,7 @@
                     <button @click="activeImage = 12; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/1e4662c3-ada1-471d-a04f-44f75a243ed4.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/1e4662c3-ada1-471d-a04f-44f75a243ed4.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1190,7 +1238,7 @@
                     <button @click="activeImage = 13; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/2a72696e-bc20-4616-8292-3f65b0ae2e7d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/2a72696e-bc20-4616-8292-3f65b0ae2e7d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1207,7 +1255,7 @@
                     <button @click="activeImage = 14; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/7a82c5be-2dbc-45da-bfd2-bef728361bd1.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/7a82c5be-2dbc-45da-bfd2-bef728361bd1.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1224,7 +1272,7 @@
                     <button @click="activeImage = 15; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/1b16c714-3fe1-47fd-9735-b6a219aead33.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/1b16c714-3fe1-47fd-9735-b6a219aead33.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1241,7 +1289,7 @@
                     <button @click="activeImage = 16; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/9eaa9d10-cc21-40a2-8ec1-1f86ec59e563.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/9eaa9d10-cc21-40a2-8ec1-1f86ec59e563.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1258,7 +1306,7 @@
                     <button @click="activeImage = 17; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/dfee696a-31b2-4084-8ad5-11cc6cac03bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/dfee696a-31b2-4084-8ad5-11cc6cac03bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1275,7 +1323,7 @@
                     <button @click="activeImage = 18; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/e1def7af-a9f3-450e-bd0a-db572df5ffe0.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/e1def7af-a9f3-450e-bd0a-db572df5ffe0.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1292,7 +1340,7 @@
                     <button @click="activeImage = 19; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/5b871b85-3437-45bf-ab9a-a3c85924eeff.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/5b871b85-3437-45bf-ab9a-a3c85924eeff.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1309,7 +1357,7 @@
                     <button @click="activeImage = 20; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/d220fed3-ef23-4148-b5a1-c0b9165b2d7b.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/d220fed3-ef23-4148-b5a1-c0b9165b2d7b.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1326,7 +1374,7 @@
                     <button @click="activeImage = 21; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/c8367a27-cd61-426a-adfc-586dc12858b7.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/c8367a27-cd61-426a-adfc-586dc12858b7.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1343,7 +1391,7 @@
                     <button @click="activeImage = 22; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/d3e80ab7-bf17-4bed-a7d5-4a247b953823.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/d3e80ab7-bf17-4bed-a7d5-4a247b953823.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1360,7 +1408,7 @@
                     <button @click="activeImage = 23; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/3d409ec6-4d7c-4657-abe1-388541e6afab.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/3d409ec6-4d7c-4657-abe1-388541e6afab.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1377,7 +1425,7 @@
                     <button @click="activeImage = 24; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/f29d949f-30dc-4a33-912b-dcacfa365c4c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/f29d949f-30dc-4a33-912b-dcacfa365c4c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1394,7 +1442,7 @@
                     <button @click="activeImage = 25; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/95001633-7f00-41db-9f2c-dd8dad8af61c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/95001633-7f00-41db-9f2c-dd8dad8af61c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1411,7 +1459,7 @@
                     <button @click="activeImage = 26; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/19ee85e0-1ac9-4b33-a1cf-a5428015d510.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/19ee85e0-1ac9-4b33-a1cf-a5428015d510.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1428,7 +1476,7 @@
                     <button @click="activeImage = 27; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/506adf27-e6fc-42af-95e7-92866599da1c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/506adf27-e6fc-42af-95e7-92866599da1c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1445,7 +1493,7 @@
                     <button @click="activeImage = 28; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/5781a61d-46dc-44a5-9266-a60e4c3b57aa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/5781a61d-46dc-44a5-9266-a60e4c3b57aa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1462,7 +1510,7 @@
                     <button @click="activeImage = 29; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/5ace156e-54cf-4118-9cd3-5265a5bbbf53.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/5ace156e-54cf-4118-9cd3-5265a5bbbf53.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1479,7 +1527,7 @@
                     <button @click="activeImage = 30; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/283a7ce0-448e-4af3-ac26-47da1e52e0ee.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/283a7ce0-448e-4af3-ac26-47da1e52e0ee.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1496,7 +1544,7 @@
                     <button @click="activeImage = 31; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/76ef048f-e6a9-4e26-afb6-593d9369ab9a.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/76ef048f-e6a9-4e26-afb6-593d9369ab9a.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1513,7 +1561,7 @@
                     <button @click="activeImage = 32; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/a67ae7b3-cb13-4689-b83b-781d0e0d1501.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/a67ae7b3-cb13-4689-b83b-781d0e0d1501.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1530,7 +1578,7 @@
                     <button @click="activeImage = 33; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/6178a97e-606f-4e61-b832-1c9b434263fb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/6178a97e-606f-4e61-b832-1c9b434263fb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1547,7 +1595,7 @@
                     <button @click="activeImage = 34; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/6df5ee78-e50b-4091-914a-e97dbde88d62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/6df5ee78-e50b-4091-914a-e97dbde88d62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1564,7 +1612,7 @@
                     <button @click="activeImage = 35; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/406e28ff-edf5-4a07-ab8d-529fc0143a62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/406e28ff-edf5-4a07-ab8d-529fc0143a62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1581,7 +1629,7 @@
                     <button @click="activeImage = 36; galleryModalOpen = true" class="block w-full h-full space-y-4 text-left rounded focus:outline-none focus-visible:ring ring-primary ring-offset-2 ring-opacity-75">
                         <div class="aspect-w-3 aspect-h-2">
                             
-                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/media/9e462bc0-2b5c-4658-b432-b7e4e85f496d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                <img class="object-cover rounded-lg shadow-lg" src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/media/9e462bc0-2b5c-4658-b432-b7e4e85f496d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                             
                         </div>
 
@@ -1613,7 +1661,7 @@
                     <div class="relative h-16 px-6 bg-white">
                         <h2 class="sr-only" :id="$id('modal-title')">Modal Gallery</h2>
 
-                        <button @click="galleryModalOpen = false;" class="absolute p-1 transition rounded top-5 right-1 hover:bg-gray-100 focus-visible:ring-2 focus:outline-none ring-primary ring-opacity-75 ring-offset-2">
+                        <button id="close-modal-button" @click="galleryModalOpen = false; handleClick()" class="absolute p-1 transition rounded top-5 right-1 hover:bg-gray-100 focus-visible:ring-2 focus:outline-none ring-primary ring-opacity-75 ring-offset-2">
                             <span class="sr-only">Close modal</span>
                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -1638,7 +1686,7 @@
                                 
                                     <li class="flex flex-col" x-show="activeImage === 0">
                                         
-                                            <video preload="metadata" class="rounded shadow-md object-contain w-full h-60" loading="lazy" controls> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/f7bd4829-bb7d-4eeb-b1ef-cb3abf7e2bc7.mp4#t=0.5" >
+                                            <video class="gallery-modal-video rounded shadow-md object-contain w-full h-60" loading="lazy" autoplay loop controls muted> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/f7bd4829-bb7d-4eeb-b1ef-cb3abf7e2bc7.mp4#t=0.5" >
                                             </video>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
@@ -1646,7 +1694,7 @@
                                 
                                     <li class="flex flex-col" x-show="activeImage === 1">
                                         
-                                            <video preload="metadata" class="rounded shadow-md object-contain w-full h-60" loading="lazy" controls> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/aa54d5c9-b989-4eab-a53a-bea200ad1c3b.mp4#t=0.5" >
+                                            <video class="gallery-modal-video rounded shadow-md object-contain w-full h-60" loading="lazy" autoplay loop controls muted> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/aa54d5c9-b989-4eab-a53a-bea200ad1c3b.mp4#t=0.5" >
                                             </video>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
@@ -1654,7 +1702,7 @@
                                 
                                     <li class="flex flex-col" x-show="activeImage === 2">
                                         
-                                            <video preload="metadata" class="rounded shadow-md object-contain w-full h-60" loading="lazy" controls> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/9e1efd55-42f9-40c0-941f-b562614363c3.mp4#t=0.5" >
+                                            <video class="gallery-modal-video rounded shadow-md object-contain w-full h-60" loading="lazy" autoplay loop controls muted> <source src="https://landing-page-app-hero-images.s3.amazonaws.com/media/9e1efd55-42f9-40c0-941f-b562614363c3.mp4#t=0.5" >
                                             </video>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
@@ -1662,238 +1710,238 @@
                                 
                                     <li class="flex flex-col" x-show="activeImage === 3">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/8f676074-3141-4c5d-8322-efb157ce80fa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/8f676074-3141-4c5d-8322-efb157ce80fa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 4">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/b294cd61-7b7e-46c7-89fa-d154d7d43d45.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/b294cd61-7b7e-46c7-89fa-d154d7d43d45.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 5">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/03886998-1aac-44d3-82ee-cc18deb828bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/03886998-1aac-44d3-82ee-cc18deb828bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 6">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/1414b62e-d53e-4339-bf28-51857675ed34.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/1414b62e-d53e-4339-bf28-51857675ed34.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 7">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/90d4dfe8-8eb7-49cc-a532-3471138252c6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/90d4dfe8-8eb7-49cc-a532-3471138252c6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 8">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/df7588d1-0608-4296-911c-f94470222675.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/df7588d1-0608-4296-911c-f94470222675.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 9">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/2138a109-baa1-4af3-8336-3e1bc2677715.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/2138a109-baa1-4af3-8336-3e1bc2677715.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 10">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/e6d80897-2891-4080-9ac0-837f73ff23a6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/e6d80897-2891-4080-9ac0-837f73ff23a6.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 11">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/d2e76bd4-2613-4325-972c-2f97faccafdb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/d2e76bd4-2613-4325-972c-2f97faccafdb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 12">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/1e4662c3-ada1-471d-a04f-44f75a243ed4.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/1e4662c3-ada1-471d-a04f-44f75a243ed4.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 13">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/2a72696e-bc20-4616-8292-3f65b0ae2e7d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/2a72696e-bc20-4616-8292-3f65b0ae2e7d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 14">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/7a82c5be-2dbc-45da-bfd2-bef728361bd1.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/7a82c5be-2dbc-45da-bfd2-bef728361bd1.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 15">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/1b16c714-3fe1-47fd-9735-b6a219aead33.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/1b16c714-3fe1-47fd-9735-b6a219aead33.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 16">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/9eaa9d10-cc21-40a2-8ec1-1f86ec59e563.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/9eaa9d10-cc21-40a2-8ec1-1f86ec59e563.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 17">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/dfee696a-31b2-4084-8ad5-11cc6cac03bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/dfee696a-31b2-4084-8ad5-11cc6cac03bc.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 18">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/e1def7af-a9f3-450e-bd0a-db572df5ffe0.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/e1def7af-a9f3-450e-bd0a-db572df5ffe0.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 19">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/5b871b85-3437-45bf-ab9a-a3c85924eeff.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/5b871b85-3437-45bf-ab9a-a3c85924eeff.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 20">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/d220fed3-ef23-4148-b5a1-c0b9165b2d7b.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/d220fed3-ef23-4148-b5a1-c0b9165b2d7b.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 21">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/c8367a27-cd61-426a-adfc-586dc12858b7.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/c8367a27-cd61-426a-adfc-586dc12858b7.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 22">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/d3e80ab7-bf17-4bed-a7d5-4a247b953823.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/d3e80ab7-bf17-4bed-a7d5-4a247b953823.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 23">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/3d409ec6-4d7c-4657-abe1-388541e6afab.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/3d409ec6-4d7c-4657-abe1-388541e6afab.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 24">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/f29d949f-30dc-4a33-912b-dcacfa365c4c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/f29d949f-30dc-4a33-912b-dcacfa365c4c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 25">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/95001633-7f00-41db-9f2c-dd8dad8af61c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/95001633-7f00-41db-9f2c-dd8dad8af61c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 26">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/19ee85e0-1ac9-4b33-a1cf-a5428015d510.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/19ee85e0-1ac9-4b33-a1cf-a5428015d510.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 27">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/506adf27-e6fc-42af-95e7-92866599da1c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/506adf27-e6fc-42af-95e7-92866599da1c.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 28">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/5781a61d-46dc-44a5-9266-a60e4c3b57aa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/5781a61d-46dc-44a5-9266-a60e4c3b57aa.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 29">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/5ace156e-54cf-4118-9cd3-5265a5bbbf53.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/5ace156e-54cf-4118-9cd3-5265a5bbbf53.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 30">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/283a7ce0-448e-4af3-ac26-47da1e52e0ee.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/283a7ce0-448e-4af3-ac26-47da1e52e0ee.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 31">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/76ef048f-e6a9-4e26-afb6-593d9369ab9a.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/76ef048f-e6a9-4e26-afb6-593d9369ab9a.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 32">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/a67ae7b3-cb13-4689-b83b-781d0e0d1501.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/a67ae7b3-cb13-4689-b83b-781d0e0d1501.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 33">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/6178a97e-606f-4e61-b832-1c9b434263fb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/6178a97e-606f-4e61-b832-1c9b434263fb.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 34">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/6df5ee78-e50b-4091-914a-e97dbde88d62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/6df5ee78-e50b-4091-914a-e97dbde88d62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 35">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/406e28ff-edf5-4a07-ab8d-529fc0143a62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/406e28ff-edf5-4a07-ab8d-529fc0143a62.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
                                 
                                     <li class="flex flex-col" x-show="activeImage === 36">
                                             
-                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/684x480/media/9e462bc0-2b5c-4658-b432-b7e4e85f496d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
+                                            <img class="mt-2 lg:h-[481px] h-[200px] sm:h-[300px] self-center rounded-md object-cover"  src="https://d3p2r6ofnvoe67.cloudfront.net/fit-in/filters:strip_exif()/filters:format(webp)/684x480/media/9e462bc0-2b5c-4658-b432-b7e4e85f496d.jpeg" alt="All Photos for Tiny’s Home Repair And More in Inman, SC" loading="lazy"/>
                                             <p lorem="1" class="mt-3 text-gray-500"></p>
                                         
                                     </li>
@@ -1914,6 +1962,14 @@
     </template>
 </div>
 
+<script>
+    function handleClick() {
+        const videos = document.getElementsByClassName('gallery-modal-video')
+        for (let video of videos) {
+            video.muted = true
+        }
+    }
+</script>
         </div>
     </div>
 </section>
@@ -1944,6 +2000,8 @@
         </div>
     </div>
 </section>
+
+
 
 <footer class="bg-primary" aria-labelledby="footer-heading">
   <h2 id="footer-heading" class="sr-only">Footer</h2>
@@ -2132,26 +2190,12 @@
               </div>
           </div>
       </div>
-      <div class="pt-8 mt-12 text-center border-t-2 border-primary-darker">
-          <p class="inline-flex items-center text-base text-gray-100 xl:text-center">
-              Built with ♥ from
-              <a href="https://www.prophone.com" class="inline-block p-1 -m-1 ml-0.5 rounded focus:outline-none focus:ring-2 ring-white ring-opacity-75">
-                  <span class="sr-only">ProPhone</span>
-                  <svg aria-hidden="true" width="95" height="20" viewBox="0 0 95 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clip-path="url(#clip0_2081_3309)">
-                          <path d="M0.166504 4.11491C0.166504 3.88479 0.349686 3.69824 0.575652 3.69824H8.41749C8.70492 3.69824 8.90279 3.99213 8.79912 4.26515L2.9271 19.7339C2.86615 19.8944 2.71452 20.0003 2.54548 20.0003H0.575652C0.349686 20.0003 0.166504 19.8138 0.166504 19.5837V4.11491Z" fill="#F3F4F6"/>
-                          <path d="M15.5607 15.8854C15.5607 16.1155 15.3775 16.3021 15.1515 16.3021H7.3097C7.02227 16.3021 6.8244 16.0082 6.92806 15.7352L12.8001 0.266426C12.861 0.105862 13.0127 0 13.1817 0H15.1515C15.3775 0 15.5607 0.186548 15.5607 0.416667V15.8854Z" fill="#F3F4F6"/>
-                          <path d="M23.2834 15.5732H25.2474V11.7139H27.0118C29.1598 11.7139 30.6941 10.3076 30.6941 8.27637C30.6941 6.24512 29.1598 4.82324 27.0118 4.82324H23.2834V15.5732ZM25.2474 6.44824H26.7356C27.871 6.44824 28.6689 7.18262 28.6689 8.27637C28.6689 9.35449 27.871 10.0889 26.7356 10.0889H25.2474V6.44824ZM32.6332 15.5732H34.5971V10.3545C35.1034 9.69824 35.7938 9.33887 36.4382 9.33887C36.6684 9.33887 36.9139 9.37012 37.1287 9.43262V7.65137C36.9139 7.58887 36.6991 7.57324 36.4843 7.57324C35.8245 7.57324 35.1494 7.91699 34.5971 8.54199V7.76074H32.6332V15.5732ZM38.142 11.667C38.142 14.0576 39.7837 15.7607 42.1005 15.7607C44.4173 15.7607 46.0437 14.0576 46.0437 11.667C46.0437 9.26074 44.4173 7.57324 42.1005 7.57324C39.7837 7.57324 38.142 9.26074 38.142 11.667ZM40.152 11.667C40.152 10.2295 40.9498 9.24512 42.1005 9.24512C43.2359 9.24512 44.0338 10.2295 44.0338 11.667C44.0338 13.1045 43.2359 14.0889 42.1005 14.0889C40.9498 14.0889 40.152 13.1045 40.152 11.667Z" fill="#F3F4F6"/>
-                          <path d="M48.2825 15.5733H50.2464V11.7139H52.0108C54.1588 11.7139 55.6931 10.3076 55.6931 8.27637C55.6931 6.24512 54.1588 4.82324 52.0108 4.82324H48.2825V15.5733ZM50.2464 6.44824H51.7346C52.87 6.44824 53.6678 7.18262 53.6678 8.27637C53.6678 9.3545 52.87 10.0889 51.7346 10.0889H50.2464V6.44824ZM57.632 15.5733H59.5959V10.1514C60.1022 9.6045 60.6699 9.32325 61.2376 9.32325C62.0354 9.32325 62.5878 9.917 62.5878 10.7451V15.5733H64.567V10.3857C64.567 8.7295 63.4316 7.57324 61.836 7.57324C61.0535 7.57324 60.2863 7.87012 59.5959 8.43262V4.33887H57.632V15.5733ZM66.4225 11.667C66.4225 14.0576 68.0642 15.7608 70.381 15.7608C72.6978 15.7608 74.3242 14.0576 74.3242 11.667C74.3242 9.26075 72.6978 7.57324 70.381 7.57324C68.0642 7.57324 66.4225 9.26075 66.4225 11.667ZM68.4324 11.667C68.4324 10.2295 69.2303 9.24512 70.381 9.24512C71.5164 9.24512 72.3142 10.2295 72.3142 11.667C72.3142 13.1045 71.5164 14.0889 70.381 14.0889C69.2303 14.0889 68.4324 13.1045 68.4324 11.667ZM76.2559 15.5733H78.2198V10.1514C78.7261 9.6045 79.2938 9.32325 79.8615 9.32325C80.6593 9.32325 81.2117 9.917 81.2117 10.7451V15.5733H83.1909V10.3857C83.1909 8.7295 82.0555 7.57324 80.4599 7.57324C79.6774 7.57324 78.9102 7.87012 78.2198 8.43262V7.76074H76.2559V15.5733ZM85.0464 11.6045C85.0464 14.042 86.6728 15.7608 88.9896 15.7608C89.8488 15.7608 90.7233 15.5576 91.5979 15.1514V13.4795C90.8 13.9482 90.0175 14.2139 89.3118 14.2139C88.023 14.2139 87.1024 13.4014 86.9796 12.2139H92.1809C92.2116 11.9482 92.2116 11.6982 92.2116 11.4795C92.2116 9.18262 90.8461 7.57324 88.8361 7.57324C86.6421 7.57324 85.0464 9.24512 85.0464 11.6045ZM86.9796 10.917C87.0717 9.83887 87.8081 9.12012 88.7594 9.12012C89.634 9.12012 90.263 9.8545 90.3244 10.917H86.9796Z" fill="#F3F4F6"/>
-                      </g>
-                      <defs>
-                          <clipPath id="clip0_2081_3309">
-                              <rect width="94.6667" height="20" fill="white" transform="translate(0.166504)"/>
-                          </clipPath>
-                      </defs>
-                  </svg>
-              </a>
-          </p>
+      <div class="pt-10 mt-12 text-center border-t-2 border-primary-darker">
+        <div>
+            <a href="https://www.prophone.com" target="_blank">
+                <img class="w-56 m-auto" src="/staticfiles/landing_page_gen/built-with-love.png" />
+            </a>
+        </div>
       </div>
   </div>
 </footer>
@@ -2285,57 +2329,57 @@
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240766"
-                                                    name="240766"
+                                                    id="contact-service-266699"
+                                                    name="266699"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Deck & Patio"
                                             />
-                                            <label for="contact-label-service-240766" class="ml-3 text-sm font-medium text-gray-700">Deck & Patio</label>
+                                            <label for="contact-label-service-266699" class="ml-3 text-sm font-medium text-gray-700">Deck & Patio</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240767"
-                                                    name="240767"
+                                                    id="contact-service-266700"
+                                                    name="266700"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Flooring Installation"
                                             />
-                                            <label for="contact-label-service-240767" class="ml-3 text-sm font-medium text-gray-700">Flooring Installation</label>
+                                            <label for="contact-label-service-266700" class="ml-3 text-sm font-medium text-gray-700">Flooring Installation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240768"
-                                                    name="240768"
+                                                    id="contact-service-266701"
+                                                    name="266701"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Kitchen Renovation"
                                             />
-                                            <label for="contact-label-service-240768" class="ml-3 text-sm font-medium text-gray-700">Kitchen Renovation</label>
+                                            <label for="contact-label-service-266701" class="ml-3 text-sm font-medium text-gray-700">Kitchen Renovation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240769"
-                                                    name="240769"
+                                                    id="contact-service-266702"
+                                                    name="266702"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Bathroom Renovation"
                                             />
-                                            <label for="contact-label-service-240769" class="ml-3 text-sm font-medium text-gray-700">Bathroom Renovation</label>
+                                            <label for="contact-label-service-266702" class="ml-3 text-sm font-medium text-gray-700">Bathroom Renovation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240770"
-                                                    name="240770"
+                                                    id="contact-service-266703"
+                                                    name="266703"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Carpentry"
                                             />
-                                            <label for="contact-label-service-240770" class="ml-3 text-sm font-medium text-gray-700">Carpentry</label>
+                                            <label for="contact-label-service-266703" class="ml-3 text-sm font-medium text-gray-700">Carpentry</label>
                                         </div>
                                         
                                     </div>
@@ -2364,57 +2408,57 @@
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240766"
-                                                    name="240766"
+                                                    id="contact-service-266699"
+                                                    name="266699"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Deck & Patio"
                                             />
-                                            <label for="contact-label-service-240766" class="ml-3 text-sm font-medium text-gray-700">Deck & Patio</label>
+                                            <label for="contact-label-service-266699" class="ml-3 text-sm font-medium text-gray-700">Deck & Patio</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240767"
-                                                    name="240767"
+                                                    id="contact-service-266700"
+                                                    name="266700"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Flooring Installation"
                                             />
-                                            <label for="contact-label-service-240767" class="ml-3 text-sm font-medium text-gray-700">Flooring Installation</label>
+                                            <label for="contact-label-service-266700" class="ml-3 text-sm font-medium text-gray-700">Flooring Installation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240768"
-                                                    name="240768"
+                                                    id="contact-service-266701"
+                                                    name="266701"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Kitchen Renovation"
                                             />
-                                            <label for="contact-label-service-240768" class="ml-3 text-sm font-medium text-gray-700">Kitchen Renovation</label>
+                                            <label for="contact-label-service-266701" class="ml-3 text-sm font-medium text-gray-700">Kitchen Renovation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240769"
-                                                    name="240769"
+                                                    id="contact-service-266702"
+                                                    name="266702"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Bathroom Renovation"
                                             />
-                                            <label for="contact-label-service-240769" class="ml-3 text-sm font-medium text-gray-700">Bathroom Renovation</label>
+                                            <label for="contact-label-service-266702" class="ml-3 text-sm font-medium text-gray-700">Bathroom Renovation</label>
                                         </div>
                                         
                                         <div class="flex items-center">
                                             <input
-                                                    id="contact-service-240770"
-                                                    name="240770"
+                                                    id="contact-service-266703"
+                                                    name="266703"
                                                     type="checkbox"
                                                     class="w-4 h-4 border-gray-300 rounded text-primary focus:ring-primary"
                                                     value="Carpentry"
                                             />
-                                            <label for="contact-label-service-240770" class="ml-3 text-sm font-medium text-gray-700">Carpentry</label>
+                                            <label for="contact-label-service-266703" class="ml-3 text-sm font-medium text-gray-700">Carpentry</label>
                                         </div>
                                         
                                     </div>
